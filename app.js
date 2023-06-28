@@ -100,8 +100,30 @@ app
     } catch (err) {
       res.status(500).send("Error updating article");
     }
+  })
+
+  .patch(async (req, res) => {
+    try {
+      await Article.findOneAndUpdate(
+        { title: req.params.articleTitle },
+        { $set: req.body }
+      );
+      res.send("Successfully updated article");
+    } catch (error) {
+      res.send(error);
+    }
+  })
+
+  .delete(async (req, res) => {
+    try {
+      await Article.deleteOne({ title: req.params.articleTitle });
+      res.send("Successfully deleted all articles");
+    } catch (error) {
+      res.send(error);
+    }
   });
 
+//Spin up server
 app.listen(3000, () => {
   console.log("speak chief, I'm listening on port 3000");
 });
